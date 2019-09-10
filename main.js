@@ -201,7 +201,11 @@ class eWeLink {
     const error = _get(device, 'error', false);
     const status = _get(device, 'params.switch', false);
     const switches = _get(device, 'params.switches', false);
-    const switchesAmount = getDeviceChannelCount(device.uiid);
+    const switchesAmount = getDeviceChannelCount(device.uiid || (
+      (device.extra && device.extra.extra) ? 
+        device.extra.extra.uiid :
+        0
+    ));
 
     if (error || switchesAmount < channel || (!status && !switches)) {
       if (error && parseInt(error) === 401) {
